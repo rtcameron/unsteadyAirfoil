@@ -1,0 +1,139 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _7bdb509494-20201222 OPENFOAM=2012
+Arch   : "LSB;label=32;scalar=64"
+Exec   : overPimpleDyMFoam
+Date   : Feb 15 2024
+Time   : 14:38:09
+Host   : DESKTOP-RCNOFTC
+PID    : 77865
+I/O    : uncollated
+Case   : /home/rtcameron/run/overFoil2D/background
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Selecting dynamicFvMesh dynamicOversetFvMesh
+Selecting motion solver: multiSolidBodyMotionSolver
+Applying solid body motion to entire mesh
+Selecting solid-body motion function multiMotion
+Selecting solid-body motion function tabulated6DoFMotion
+Constructed SBMF 0 : displacementAoA of type tabulated6DoFMotion
+Applying solid body motion multiMotion to 181696 points of cellZone oversetZone
+
+PIMPLE: Operating solver in PISO mode
+
+Reading field p
+
+Reading field U
+
+Reading/calculating face flux field phi
+
+Creating cellMask field to block out hole cells
+
+--> FOAM Warning : 
+    From bool Foam::oversetPolyPatch::master() const
+    in file oversetPolyPatch/oversetPolyPatch.C at line 151
+    The master overset patch is not the first patch. Generally the first patch should be an overset patch to guarantee consistent operation.
+Creating interpolatedCells field 
+
+Selecting incompressible transport model Newtonian
+Selecting turbulence model type RAS
+Selecting RAS turbulence model kOmegaSST
+Selecting patchDistMethod meshWave
+RAS
+{
+    RASModel        kOmegaSST;
+    turbulence      on;
+    printCoeffs     on;
+    alphaK1         0.85;
+    alphaK2         1;
+    alphaOmega1     0.5;
+    alphaOmega2     0.856;
+    gamma1          0.5555555556;
+    gamma2          0.44;
+    beta1           0.075;
+    beta2           0.0828;
+    betaStar        0.09;
+    a1              0.31;
+    b1              1;
+    c1              10;
+    F3              false;
+    decayControl    false;
+    kInf            0;
+    omegaInf        0;
+}
+
+Reading/calculating face velocity Uf
+
+No MRF models present
+
+No finite volume options present
+Courant Number mean: 1.600434242 max: 1211.691442
+forceCoeffs liftCoeff:
+    p: p
+    U: U
+    rho: rhoInf
+    Freestream density (rhoInf) set to 1.225
+    Not including porosity effects
+
+Sampled surface:
+    airfoil -> raw
+
+
+Starting time loop
+
+Courant Number mean: 0.001320826562 max: 1
+deltaT = 8.252926159e-06
+Time = 8.25293e-06
+
+inverseDistance : detected 2 mesh regions
+    zone:0 nCells:62500  voxels:(100 100 1) bb:(-15 -15 0) (15 15 1)
+    zone:1 nCells:90334  voxels:(100 100 1) bb:(-15 -15 0) (15 15 1)
+Overset analysis : nCells : 152834
+    calculated   : 151946
+    interpolated : 728 (interpolated from local:728  mixed local/remote:0  remote:0)
+    hole         : 160
+
+PIMPLE: iteration 1
+
+
+--> FOAM FATAL ERROR: (openfoam-2012)
+field does not correspond to level 0 sizes: field = 304654 level = 308294
+
+    From void Foam::GAMGAgglomeration::restrictFaceField(Foam::Field<Type>&, const Foam::Field<Type>&, Foam::label) const [with Type = double; Foam::label = int]
+    in file lnInclude/GAMGAgglomerationTemplates.C at line 151.
+
+FOAM aborting
+
+#0  Foam::error::printStack(Foam::Ostream&) at ??:?
+#1  Foam::error::exitOrAbort(int, bool) at ??:?
+#2  void Foam::GAMGAgglomeration::restrictFaceField<double>(Foam::Field<double>&, Foam::Field<double> const&, int) const at ??:?
+#3  Foam::pairGAMGAgglomeration::agglomerate(Foam::lduMesh const&, Foam::Field<double> const&) at ??:?
+#4  Foam::faceAreaPairGAMGAgglomeration::faceAreaPairGAMGAgglomeration(Foam::lduMesh const&, Foam::dictionary const&) at ??:?
+#5  Foam::GAMGAgglomeration::addlduMeshConstructorToTable<Foam::faceAreaPairGAMGAgglomeration>::New(Foam::lduMesh const&, Foam::dictionary const&) at ??:?
+#6  Foam::GAMGAgglomeration::New(Foam::lduMesh const&, Foam::dictionary const&) at ??:?
+#7  Foam::GAMGAgglomeration::New(Foam::lduMatrix const&, Foam::dictionary const&) at ??:?
+#8  Foam::GAMGSolver::GAMGSolver(Foam::word const&, Foam::lduMatrix const&, Foam::FieldField<Foam::Field, double> const&, Foam::FieldField<Foam::Field, double> const&, Foam::UPtrList<Foam::lduInterfaceField const> const&, Foam::dictionary const&) at ??:?
+#9  Foam::lduMatrix::solver::addasymMatrixConstructorToTable<Foam::GAMGSolver>::New(Foam::word const&, Foam::lduMatrix const&, Foam::FieldField<Foam::Field, double> const&, Foam::FieldField<Foam::Field, double> const&, Foam::UPtrList<Foam::lduInterfaceField const> const&, Foam::dictionary const&) at ??:?
+#10  Foam::lduMatrix::solver::New(Foam::word const&, Foam::lduMatrix const&, Foam::FieldField<Foam::Field, double> const&, Foam::FieldField<Foam::Field, double> const&, Foam::UPtrList<Foam::lduInterfaceField const> const&, Foam::dictionary const&) at ??:?
+#11  Foam::fvMatrix<double>::solveSegregated(Foam::dictionary const&) at ??:?
+#12  Foam::fvMatrix<double>::solveSegregatedOrCoupled(Foam::dictionary const&) at ??:?
+#13  Foam::fvMesh::solve(Foam::fvMatrix<double>&, Foam::dictionary const&) const at ??:?
+#14  Foam::SolverPerformance<double> Foam::dynamicOversetFvMesh::solve<double>(Foam::fvMatrix<double>&, Foam::dictionary const&) const at ??:?
+#15  Foam::dynamicOversetFvMesh::solve(Foam::fvMatrix<double>&, Foam::dictionary const&) const at ??:?
+#16  ? at ??:?
+#17  ? in /lib/x86_64-linux-gnu/libc.so.6
+#18  __libc_start_main in /lib/x86_64-linux-gnu/libc.so.6
+#19  ? at ??:?

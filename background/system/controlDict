@@ -1,0 +1,104 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+libs            (overset fvMotionSolvers);
+
+application     overPimpleDyMFoam;
+
+startFrom       startTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         1;
+
+deltaT          0.01;
+
+writeControl    runTime;
+
+writeInterval   0.01;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  10;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+maxCo   1;
+
+functions
+{
+    liftCoeff
+    {
+        type            forceCoeffs;
+        libs            ("libforces.so");
+        writeControl    timeStep;
+        writeInterval   10;
+
+        // Field names
+        p               p;
+        U               U;
+        rho             rho;
+
+        patches         (walls);
+        rho             rhoInf;
+        rhoInf          1.225;
+        CofR            (0 0 0);
+        liftDir         (0 1 0);
+        dragDir         (1 0 0);
+        pitchAxis       (0 0 1);
+        magUInf         10;
+        lRef            1;
+        Aref            0.05;
+    }
+
+    sampleDict1
+    {
+        type surfaces;
+        libs ("libsampling.so");
+        surfaceFormat raw;
+        interpolationScheme cell;
+        fields
+        (
+            p
+        );
+
+        surfaces
+        (
+            airfoil
+            {
+                type patch;
+                patches (walls);
+                interpolate false;
+                triangulate false;
+            }
+        );
+        writeControl    runTime;
+        writeInterval   100;
+    }
+}
+// ************************************************************************* //

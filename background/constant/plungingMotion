@@ -1,0 +1,11 @@
+
+plunging
+{
+    solidBodyMotionFunction oscillatingLinearMotion;
+    oscillatingLinearMotionCoeffs
+    {
+        amplitude (0 0.87 0);
+        omega     2; //angular frequency of the sinusoidal translation [rad/s]
+    }
+}
+    

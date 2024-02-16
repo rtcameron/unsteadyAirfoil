@@ -1,0 +1,72 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _7bdb509494-20201222 OPENFOAM=2012
+Arch   : "LSB;label=32;scalar=64"
+Exec   : createPatch -dict system/createPatchDict_gmsh -overwrite
+Date   : Feb 15 2024
+Time   : 14:37:57
+Host   : DESKTOP-RCNOFTC
+PID    : 77809
+I/O    : uncollated
+Case   : /home/rtcameron/run/overFoil2D/overset
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create polyMesh for time = 0
+
+Reading "system/createPatchDict_gmsh"
+
+Adding new patch overset1 as patch 6 from 
+{
+    type            overset;
+}
+
+Adding new patch walls as patch 7 from 
+{
+    type            wall;
+}
+
+Adding new patch frontAndBack as patch 8 from 
+{
+    type            empty;
+}
+
+
+Moving faces from patch Inlet to patch 6
+Moving faces from patch TopAndBottom to patch 6
+Moving faces from patch Outlet to patch 6
+--> FOAM Warning : 
+    From Foam::labelHashSet Foam::polyBoundaryMesh::patchSet(const Foam::UList<Foam::wordRe>&, bool, bool) const
+    in file meshes/polyMesh/polyBoundaryMesh/polyBoundaryMesh.C at line 896
+    Cannot find any patch or group names matching defaultFaces
+Moving faces from patch Wall to patch 7
+Moving faces from patch Front to patch 8
+Moving faces from patch Back to patch 8
+
+Doing topology modification to order faces.
+
+Not synchronising points.
+
+Removing patches with no faces in them.
+
+Removing zero-sized patch Front type patch at position 0
+Removing zero-sized patch Wall type patch at position 1
+Removing zero-sized patch Back type patch at position 2
+Removing zero-sized patch Inlet type patch at position 3
+Removing zero-sized patch TopAndBottom type patch at position 4
+Removing zero-sized patch Outlet type patch at position 5
+Removing patches.
+Writing repatched mesh to 0
+
+End
+

@@ -1,0 +1,67 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      dynamicMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh   dynamicOversetFvMesh;
+
+motionSolverLibs (fvMotionSolvers);
+
+solver          multiSolidBodyMotionSolver;
+
+multiSolidBodyMotionSolverCoeffs
+{
+    oversetZone
+    {
+        solidBodyMotionFunction multiMotion;
+        multiMotionCoeffs
+        {
+            // #include    "plungingMotion"
+            // plunging
+            // {
+            //     solidBodyMotionFunction oscillatingLinearMotion;
+            //     oscillatingLinearMotionCoeffs
+            //     {
+            //         amplitude (0 3.0 0);
+            //         omega     6; //angular frequency of the sinusoidal translation [rad/s]
+            //     }
+            // }
+
+            // pitching
+            // {
+            //     solidBodyMotionFunction oscillatingRotatingMotion;
+            //     oscillatingRotatingMotionCoeffs
+            //     {
+            //         origin          (0 0 0);
+            //         amplitude       (0 0 0);  //units of rad
+            //         omega           0;       //units of rad/s
+            //         //axis            (0 0 1);
+            //     }
+            // }
+
+            displacementAoA
+            {
+                solidBodyMotionFunction tabulated6DoFMotion;
+                tabulated6DoFMotionCoeffs
+                {
+                    CofG            (0.25 0 0);
+                    timeDataFileName "constant/displacementInfo.dat";
+                }
+            }
+        }
+    }
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,100 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    cellDisplacement
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-06;
+        relTol          0;
+        maxIter         100;
+    }
+
+    p
+    {
+        // solver          PBiCGStab; //GAMG
+        // preconditioner  DILU;
+        solver GAMG;
+        smoother GaussSeidel;
+        cacheAgglomeration no;
+        tolerance       1e-6;
+        relTol          0;
+    }
+
+    pcorr
+    {
+        $p;
+        // solver          PCG;
+        // preconditioner  DIC;
+    }
+
+    pFinal
+    {
+        $p;
+    }
+
+    pcorrFinal
+    {
+        $pcorr;
+        relTol          0;
+    }
+
+    "(U|k|omega|epsilon)"
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-6;
+        relTol          0;
+    }
+
+    "(U|k|omega|epsilon)Final"
+    {
+        $U;
+        tolerance       1e-6;
+        relTol          0;
+    }
+}
+
+PIMPLE
+{
+    momentumPredictor           no;
+    correctPhi                  no;
+    nOuterCorrectors            1;
+    nCorrectors                 2;
+    nNonOrthogonalCorrectors    0;
+
+    ddtCorr                     false;
+}
+
+relaxationFactors
+{
+    fields
+    {
+        p               0.3;
+    }
+    equations
+    {
+        U                           0.7;
+        k                           0.7;
+        omega                       0.7;
+        epsilon                     0.7;
+        "(U|k|omega|epsilon)Final"  1.0;
+    }
+}
+
+// ************************************************************************* //

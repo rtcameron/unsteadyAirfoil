@@ -1,0 +1,32 @@
+#!/bin/bash
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+# Generate Mesh
+./Allrun.pre
+
+# Make the angle file
+declare -a angles=( 0 )
+for ang in "${angles[@]}"
+do
+    cd .. # overFoil2D
+    python3 tools/getAngle.py $ang background/constant/displacementInfo.dat 4
+    cd background
+
+    # Parallel Run
+    foamListTimes -rm
+    # foamListTimes -processor -rm
+    rm -r processor*
+    rm -r postProcessing
+    rm -r log.*
+    # runApplication decomposePar
+    # runParallel $(getApplication)
+    # runApplication mpirun -np 3 $(getApplication) -parallel
+    # runApplication reconstructPar
+    runApplication $(getApplication)
+
+    # Copy the file
+    cd .. # overFoil2D
+    python3 tools/getDataPath.py $ang coefficientSteady pressureLast
+    cd background
+done

@@ -1,0 +1,22 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+# Run Necessary commands in overset
+cd ../overset/
+./Allrun.pre 
+
+# Run the case in background
+cd ../background/
+./Allclean
+runApplication blockMesh -dict system/blockMeshDict
+runApplication extrudeMesh
+runApplication createPatch -overwrite
+
+runApplication mergeMeshes . ../overset -overwrite
+runApplication topoSet
+restore0Dir
+runApplication setFields
+runApplication checkMesh
+
+#runApplication $(getApplication)

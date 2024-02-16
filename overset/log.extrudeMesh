@@ -1,0 +1,48 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+Build  : _7bdb509494-20201222 OPENFOAM=2012
+Arch   : "LSB;label=32;scalar=64"
+Exec   : extrudeMesh -dict system/extrudeMeshDict_gmsh
+Date   : Feb 15 2024
+Time   : 14:37:56
+Host   : DESKTOP-RCNOFTC
+PID    : 77808
+I/O    : uncollated
+Case   : /home/rtcameron/run/overFoil2D/overset
+nProcs : 1
+trapFpe: Floating point exception trapping enabled (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 5, maxFileModificationPolls 20)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Create mesh for time = 0
+
+Selecting extrudeModel linearNormal
+Selected extrudeModel for linearNormal using coeffs 
+{
+    thickness       1;
+}
+
+Extruding from patch using model linearNormal
+Not collapsing any edges after extrusion
+
+Extruding patches 1(Front) on mesh "/home/rtcameron/run/overFoil2D/overset"
+
+Create mesh for time = 0
+
+Adding overall 0 processor patches.
+Mesh bounding box : (-3 -4 -1) (5 4 0)
+        with span : (8 8 1)
+Merge distance    : 0
+
+Writing mesh to "/home/rtcameron/run/overFoil2D/overset/constant/region0"
+
+End
+

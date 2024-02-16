@@ -1,0 +1,13 @@
+#!/bin/sh
+cd "${0%/*}" || exit                                # Run from this directory
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+./Allclean
+runApplication gmshToFoam overset
+# runApplication blockMesh -dict system/blockMeshDict
+# runApplication snappyHexMesh -dict system/snappyHexMeshDict -overwrite
+runApplication extrudeMesh -dict system/extrudeMeshDict_gmsh
+runApplication createPatch -dict system/createPatchDict_gmsh -overwrite
+runApplication checkMesh
+restore0Dir
+touch overset.foam
